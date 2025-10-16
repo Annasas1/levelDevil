@@ -3,6 +3,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -13,15 +17,19 @@ import javax.swing.*;
  */
 public class YEYlevelFailed extends JPanel {
 
+      private Image backgroundImage2;
+
 
     /**description of class.
     * 
     * @param frame about frame.
     */
     public YEYlevelFailed(JFrame frame) {
+         backgroundImage2 = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\B4.jpg").getImage();
+        
        
 
-       setBackground(Color.GRAY);
+      // setBackground(Color.GRAY);
         setLayout(null);
 
         JButton button = new JButton("return to menu");
@@ -35,6 +43,7 @@ public class YEYlevelFailed extends JPanel {
       button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                 playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
                 YEYMainMenu returnback = new YEYMainMenu(frame);
 
                 frame.setContentPane(returnback);
@@ -45,10 +54,28 @@ public class YEYlevelFailed extends JPanel {
         });
     }
 
+     private void playSound(String soundFilePath) {
+        try {
+            File soundFile1 = new File(soundFilePath);
+            AudioInputStream audio1 = AudioSystem.getAudioInputStream(soundFile1);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio1);
+            clip.start();
+        } catch (Exception e) {
+          //System.err.println("Sound error: " + e.getMessage());  
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+
+         if (backgroundImage2 != null) {
+            g2d.drawImage(backgroundImage2, 0, 0, getWidth(), getHeight(), this);
+        } 
+
+
         
         Font font = new Font("Broadway", Font.BOLD | Font.ITALIC, 50);
         g2d.setFont(font);
@@ -61,11 +88,8 @@ public class YEYlevelFailed extends JPanel {
         int boardHeight = 800;
 
         JFrame frame = new JFrame("Level is failed");
-        YEYlevelFailed Pic = new YEYlevelFailed(frame);
+        
         frame.setSize(boardWidth, boardHeight);
-        ImageIcon image1 = new
-        ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\BackgroundMainmenu.jpg");
-        frame.add(new JLabel(image1));
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
