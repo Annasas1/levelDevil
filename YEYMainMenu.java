@@ -5,6 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 // I DID NOT ANY COMMENTS BY NOW
@@ -21,7 +25,7 @@ public class YEYMainMenu extends JPanel  {
      */
     public YEYMainMenu(JFrame frame) {
 
-         backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\BackgroundMainmenu.jpg").getImage();
+         backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\B4.jpg").getImage();
         setBackground(Color.GRAY);
         setLayout(null); 
     
@@ -65,6 +69,7 @@ public class YEYMainMenu extends JPanel  {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                  playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
                 YEYlevel1 level1 = new YEYlevel1();
 
                 frame.setContentPane(level1);
@@ -77,6 +82,7 @@ public class YEYMainMenu extends JPanel  {
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                  playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
                 YEYlevel2 level2 = new YEYlevel2();
 
                 frame.setContentPane(level2);
@@ -89,6 +95,7 @@ public class YEYMainMenu extends JPanel  {
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                  playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
                 YEYlevel3 level3 = new YEYlevel3();
 
                 frame.setContentPane(level3);
@@ -100,6 +107,7 @@ public class YEYMainMenu extends JPanel  {
         button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                  playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
                 YEYstartMenu returnback = new YEYstartMenu(frame);
 
                 frame.setContentPane(returnback);
@@ -114,6 +122,18 @@ public class YEYMainMenu extends JPanel  {
         add(message1);
     }
 
+
+        private void playSound(String soundFilePath) {
+        try {
+            File soundFile1 = new File(soundFilePath);
+            AudioInputStream audio1 = AudioSystem.getAudioInputStream(soundFile1);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio1);
+            clip.start();
+        } catch (Exception e) {
+          System.err.println("Sound error: " + e.getMessage());  
+        }
+    }
     @Override
             protected void paintComponent(Graphics g) {
         super.paintComponent(g);
