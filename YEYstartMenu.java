@@ -5,6 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 // I DID NOT ADD ANY COMMENTS BY NOW
@@ -35,6 +39,7 @@ public class YEYstartMenu extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
                 YEYMainMenu mainMenu = new YEYMainMenu(frame);
 
                 frame.setContentPane(mainMenu);
@@ -44,6 +49,21 @@ public class YEYstartMenu extends JPanel {
             }
         });
     }
+
+    private void playSound(String soundFilePath) {
+        try {
+            File soundFile1 = new File(soundFilePath);
+            AudioInputStream audio1 = AudioSystem.getAudioInputStream(soundFile1);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio1);
+            clip.start();
+        } catch (Exception e) {
+          //System.err.println("Sound error: " + e.getMessage());  
+        }
+    }
+
+
+    
 
     @Override
     protected void paintComponent(Graphics g) {
