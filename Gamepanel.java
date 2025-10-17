@@ -17,17 +17,39 @@ public class GamePanel extends JPanel implements KeyListener {
     
     //for fixing the order queue of the jump
     private boolean jumpQueued = false;
+    private GameManager gameController; // Reference to the central manager
+    private Player box = new Player(150, 300, "Demon1.PNG");
+    private Level currentLevel;
+    private Timer timer; 
+   
+    //Creating our objects <3 
     
-    //Creating our objects <3
-    private Player box = new Player(150, 300);
-    private ArrayList<Platform> platforms = new ArrayList<>();
-    Door door = new Door(0, 100, 50, 80, "door1.PNG"); 
-    private ArrayList<Spikes> spikes = new ArrayList<>();    //Player update = new Player(); 
+    //private Player box = new Player(150, 300, "Demon1.PNG");
+    //private ArrayList<Platform> platforms = new ArrayList<>();
+    //Door door = new Door(0, 100, 50, 80, "door1.PNG"); 
+    //private ArrayList<Spikes> spikes = new ArrayList<>();  //Player update = new Player(); 
     
     /** Game is built and main animation loop.
      * 
      */
-    GamePanel() {
+    GamePanel(GameManager gameController) {
+        this.gameController = gameController;
+        
+        Color customColory = Color.decode("#525064"); // Set background/setup here
+        setBackground(customColory);
+        setFocusable(true); 
+        addKeyListener(this);
+        
+        timer = new Timer(15, e -> {
+            if (currentLevel != null) {
+                final float delta = 0.015f;
+                // PASS necessary components (delta, player, jump state, controller)
+                currentLevel.update(delta, box, jumpQueued, gameController); 
+                jumpQueued = false; // Reset after passing
+            }
+            repaint();
+        });
+        /*
         Color customColory = Color.decode("#525064");
         setBackground(customColory);
         setFocusable(true);      // allows the panel to receive key input
@@ -129,9 +151,29 @@ public class GamePanel extends JPanel implements KeyListener {
             
             repaint();
         });
-        timer.start();
+        timer.start();  */
     }
 
+    // New method to load a level object
+    public void load(Level newLevel) {
+        this.currentLevel = newLevel;
+        this.currentLevel.init(this.box);
+
+        
+        // might need to reset the Player's position here
+        //box.reset(newLevel.getStartPosition());
+    }
+    
+    public void startLevelLoop() {
+        if (timer != null) {
+            timer.start();
+            requestFocusInWindow(); // Ensure the GamePanel grabs focus when the game starts
+        }
+    }
+    
+    public void stopLevelLoop() {
+        timer.stop();
+    }
     
     @Override
     public void paintComponent(Graphics g) {
@@ -141,21 +183,25 @@ public class GamePanel extends JPanel implements KeyListener {
         Graphics2D g2 = (Graphics2D) g;
 
         //color for player 
-        Color colorPlayer = Color.decode("#100c2dff");
-        g2.setColor(colorPlayer);
+        //Color colorPlayer = Color.decode("#100c2dff");
+        //g2.setColor(colorPlayer);
 
         // Draw the player as a filled rectangle using hitbox
-        g2.fill(box.getHitbox());
+        //g2.fill(box.getHitbox());
+        box.draw(g2); /*
         door.draw((Graphics2D) g);
         for (Spikes s : spikes) {
             s.draw(g2);
-        }   
-
+        }    */
+        /*
         // Draw platform
         for (Platform p : platforms) {
             p.draw(g2);
         }
-        
+        */
+        if (currentLevel != null) {
+            currentLevel.draw(g2);
+        }
     }
 
     // Key handling
