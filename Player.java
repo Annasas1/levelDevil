@@ -1,12 +1,17 @@
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  * Box. Or player. Whatever. 
  */
 public class Player {
     //Private fields to store info about our lovely player <3
-    private double width = 30;
-    private double height = 40;
+    private double width = 45;
+    private double height = 55;
     private double velocityX = 0;
     private double velocityY = 0;
     private double gravity = 1.0;
@@ -20,6 +25,7 @@ public class Player {
     private boolean onGround = false;
     private Platform currentPlatform = null; // the platform player is standing on
     
+    private BufferedImage image; //  s
 
     public Platform getCurrentPlatform() {
         return currentPlatform;
@@ -39,9 +45,16 @@ public class Player {
      * @param startX c
      * @param startY c
      */
-    public Player(int startX, int startY) {
+    public Player(int startX, int startY, String imagePath) {
         hitbox = new Rectangle2D.Double(startX, startY, width, height);
         previousHitbox = (Rectangle2D.Double) hitbox.clone();
+
+        try {
+        this.image = ImageIO.read(new File(imagePath));
+    } catch (IOException e) {
+        System.err.println("Failed to load player image: " + imagePath);
+        e.printStackTrace();
+    }
     }
 
     /** Here is our Coyote time logic. This controls the 'grace period'.
@@ -107,7 +120,7 @@ public class Player {
     */
     public void jump() {
         if (onGround || currentPlatform != null || timeSinceGrounded < coyoteTime) {
-            velocityY = -20; //negative velocity which is upward movement
+            velocityY = -18; //negative velocity which is upward movement
             onGround = false;
             currentPlatform = null;
             timeSinceGrounded = coyoteTime; // prevent double jump in the grace period
@@ -115,6 +128,28 @@ public class Player {
         }
 
     }
+
+    /**
+ * Sets the player's position and resets movement state.
+ * This is used for level initialization or respawning.
+ * @param newX The new x-coordinate for the player's top-left corner.
+ * @param newY The new y-coordinate for the player's top-left corner.
+ */
+public void setPosition(int newX, int newY) {
+    // 1. Update the position of the hitbox
+    this.hitbox.x = newX;
+    this.hitbox.y = newY;
+    
+    // 2. Reset velocities and grounded state for a fresh start
+    this.velocityX = 0;
+    this.velocityY = 0;
+    this.onGround = false;
+    this.currentPlatform = null;
+    this.timeSinceGrounded = 0;
+    
+    // Also update previousHitbox immediately so it doesn't cause errors in the first update tick
+    this.previousHitbox.setFrame(newX, newY, width, height);
+}
     /*    public void update() {
         previousHitbox = (Rectangle2D.Double) hitbox.clone();
         // apply horizontal movement FIRST!!
@@ -184,5 +219,16 @@ public class Player {
         
         // Stop horizontal movement after hitting the wall
         velocityX = 0;
+    }
+
+     public void draw(Graphics2D g2) {
+        if (image != null) {
+            g2.drawImage(image, (int) hitbox.x, (int) hitbox.y, 
+                (int) hitbox.width, (int) hitbox.height, null);
+        } else { //fallback incase image failes
+            Color customColor = Color.decode("#b04309");
+            g2.setColor(customColor);
+            g2.fill(hitbox);
+        }
     }
 }
