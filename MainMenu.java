@@ -11,15 +11,20 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 
-// I DID NOT ANY COMMENTS BY NOW
+// I DID NOT ADD ANY COMMENTS BY NOW
 /**Some description of the class and main menu of the game.
  * 
  */
 
 public class MainMenu extends JPanel  {
 
+    private JButton button1;
+    private JButton button2;
+    private JButton button3;
+    private JButton button4;
     private Image backgroundImage;
     private GameManager gameManager;
+    
     /**description of class.
      * 
      * @param frame about frame
@@ -27,12 +32,12 @@ public class MainMenu extends JPanel  {
     public MainMenu(GameManager manager) {
         this.gameManager = manager;
 
-        //backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\B4.jpg").getImage();
+        backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\b2.jpg").getImage();
         setBackground(Color.GRAY);
         setLayout(null); 
     
-        JButton button1 = new JButton("LEVEL 1");
-        button1.setBounds(420, 250, 150, 40);
+        button1 = new JButton("LEVEL 1");
+        button1.setBounds(420, 225, 150, 40);
         button1.setBackground(Color.BLACK);
         button1.setForeground(Color.WHITE);
         button1.setFont(new Font("Broadway", Font.ITALIC | Font.BOLD, 10));
@@ -40,27 +45,27 @@ public class MainMenu extends JPanel  {
         add(button1);
         
 
-        JButton button2 = new JButton("LEVEL 2");
-        button2.setBounds(420, 350, 150, 40);
+        button2 = new JButton("LEVEL 2");
+        button2.setBounds(420, 325, 150, 40);
         button2.setBackground(Color.BLACK);
         button2.setForeground(Color.WHITE);
         button2.setFont(new Font("Broadway", Font.ITALIC | Font.BOLD, 10));
         button2.setFocusPainted(false);
-        button2.setEnabled(LockedLevels.lvl1done);
+        button2.setEnabled(false);
         add(button2);
      
-        JButton button3 = new JButton("LEVEL 3");
-        button3.setBounds(420, 450, 150, 40);
+        button3 = new JButton("LEVEL 3");
+        button3.setBounds(420, 425, 150, 40);
         button3.setBackground(Color.BLACK);
         button3.setForeground(Color.WHITE);
         button3.setFont(new Font("Broadway", Font.ITALIC | Font.BOLD, 10));
         button3.setFocusPainted(false);
-        button3.setEnabled(LockedLevels.lvl2done);
+        button3.setEnabled(false);
         add(button3);
        
 
-        JButton button4 = new JButton("RETURN");
-        button4.setBounds(100, 150, 100, 30);
+        button4 = new JButton("RETURN");
+        button4.setBounds(100, 75, 100, 30);
         button4.setBackground(Color.BLACK);
         button4.setForeground(Color.WHITE);
         button4.setFont(new Font("Broadway", Font.ITALIC | Font.BOLD, 10));
@@ -71,8 +76,9 @@ public class MainMenu extends JPanel  {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                //playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
+                playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
                 gameManager.startLevel(1);
+
 
                 //frame.setContentPane(level1);
                 //frame.revalidate();
@@ -84,8 +90,9 @@ public class MainMenu extends JPanel  {
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-            //playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
+            playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
                 gameManager.startLevel(2);
+                
 
                 //frame.setContentPane(level2);
                 //frame.revalidate();
@@ -97,7 +104,7 @@ public class MainMenu extends JPanel  {
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                //playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
+                playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
                 gameManager.startLevel(3);
 
                 //frame.setContentPane(level3);
@@ -109,7 +116,7 @@ public class MainMenu extends JPanel  {
         button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                //playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
+                playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
                 //StartMenu returnback = new StartMenu(frame);
 
                 //frame.setContentPane(returnback);
@@ -123,6 +130,12 @@ public class MainMenu extends JPanel  {
         TimedLabel message1 = new TimedLabel("LEVEL 1 AVAILABLE", 5000);
         message1.setBounds(350, 180, 300, 40);
         add(message1);
+    }
+
+    public void refreshLevelButtons() {
+        int highest = gameManager.getHighestLevelCompleted();
+        button2.setEnabled(highest >= 1);
+        button3.setEnabled(highest >= 2);
     }
 
 
