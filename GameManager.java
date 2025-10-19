@@ -8,7 +8,7 @@ public class GameManager { // This is the central manager!
     private int highestLevelCompleted = 0;
     
     // Use a single reference for the GamePanel instance that will run Level 1
-    private GamePanel level1Panel; 
+    private Gamepanel level1Panel; 
 
     private LevelCompleted winScreen; 
     private LevelFailed loseScreen;
@@ -22,7 +22,7 @@ public class GameManager { // This is the central manager!
         // 1. Create ALL screens and add them to the main container
         
         // A. Create and add GamePanel (Level 1)
-        level1Panel = new GamePanel(this);
+        level1Panel = new Gamepanel(this);
         level1Panel.setName("LEVEL_1");
         mainContainer.add(level1Panel, "LEVEL_1");
         
@@ -70,6 +70,15 @@ public class GameManager { // This is the central manager!
                 }
             }
         }
+
+          if (screenName.equals("MAIN_MENU")) {
+            for (java.awt.Component comp : mainContainer.getComponents()) {
+                if (comp instanceof MainMenu) { 
+                    ((MainMenu) comp).refreshLevelButtons();
+                    break;
+                }
+            }
+        }
     }
     
     public void startLevel(int levelNumber) {
@@ -107,6 +116,10 @@ public class GameManager { // This is the central manager!
         // ... (No changes) ...
         level1Panel.stopLevelLoop(); 
         switchToScreen("LOSE_SCREEN");
+    }
+
+    public int getHighestLevelCompleted() {
+        return highestLevelCompleted;
     }
     
     // --- Main Method ---
