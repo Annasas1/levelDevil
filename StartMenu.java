@@ -26,13 +26,13 @@ public class StartMenu extends JPanel {
     public StartMenu(GameManager manager) {
         this.gameManager = manager; 
         
-        // backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\Devilbackground.jpg").getImage();
+        backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\b2.jpg").getImage();
         
         setBackground(Color.GRAY);
         setLayout(null);
 
         JButton button = new JButton("START");
-        button.setBounds(315, 525, 370, 150);
+        button.setBounds(315, 350, 370, 150);
         button.setBackground(Color.BLACK);
         button.setForeground(Color.WHITE);
         button.setFont(new Font("Broadway", Font.ITALIC | Font.BOLD, 70));
@@ -42,7 +42,7 @@ public class StartMenu extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
+                 playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
                 
                 gameManager.switchToScreen("MAIN_MENU");
             }
