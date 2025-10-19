@@ -13,7 +13,7 @@ import javax.swing.*;
  *  */ 
 
  
-public class GamePanel extends JPanel implements KeyListener {
+public class Gamepanel extends JPanel implements KeyListener {
     
     //for fixing the order queue of the jump
     private boolean jumpQueued = false;
@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements KeyListener {
     /** Game is built and main animation loop.
      * 
      */
-    GamePanel(GameManager gameController) {
+    Gamepanel(GameManager gameController) {
         this.gameController = gameController;
         
         Color customColory = Color.decode("#525064"); // Set background/setup here
