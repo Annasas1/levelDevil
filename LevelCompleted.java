@@ -25,14 +25,14 @@ public class LevelCompleted extends JPanel {
     * @param frame about frame.
     */
     public LevelCompleted(GameManager manager) {
-        // backgroundImage2 = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\B6.jpg").getImage();
+        backgroundImage2 = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\b2.jpg").getImage();
         
         this.gameManager = manager;
 
       // setBackground(Color.GRAY);
         setLayout(null);
 
-        JButton button = new JButton("return to menu");
+        JButton button = new JButton("RETURN TO MENU");
         button.setBounds(200, 325, 600, 150);
         button.setBackground(Color.BLACK);
         button.setForeground(Color.WHITE);
@@ -43,7 +43,7 @@ public class LevelCompleted extends JPanel {
       button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                //playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
+                playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
                 //MainMenu returnback = new MainMenu(frame);
                 /*
                 frame.setContentPane(returnback);
@@ -82,7 +82,7 @@ public class LevelCompleted extends JPanel {
         Font font = new Font("Broadway", Font.BOLD | Font.ITALIC, 50);
         g2d.setFont(font);
         g2d.setColor(Color.WHITE);
-        g2d.drawString("CONGRAAATS BRO", 225, 100);
+        g2d.drawString("CONGRATULATIONS!", 200, 100);
     } 
 }
 /*
