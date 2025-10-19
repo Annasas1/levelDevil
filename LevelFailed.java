@@ -26,7 +26,7 @@ public class LevelFailed extends JPanel {
     * @param frame about frame.
     */
     public LevelFailed(GameManager manager) {
-        //backgroundImage2 = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\B4.jpg").getImage();
+        backgroundImage2 = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\b2.jpg").getImage();
         
        this.gameManager = manager;
 
@@ -44,7 +44,7 @@ public class LevelFailed extends JPanel {
       button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                //playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL2\\SoundClickButtonsWAV.wav");
+                playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
                 /*MainMenu returnback = new MainMenu(frame);
 
                 frame.setContentPane(returnback);
