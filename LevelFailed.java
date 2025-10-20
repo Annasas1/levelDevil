@@ -26,7 +26,7 @@ public class LevelFailed extends JPanel {
     * @param frame about frame.
     */
     public LevelFailed(GameManager manager) {
-        backgroundImage2 = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\b2.jpg").getImage();
+        backgroundImage2 = new ImageIcon("b2.jpg").getImage();
         
        this.gameManager = manager;
 
