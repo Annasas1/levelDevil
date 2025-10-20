@@ -5,223 +5,50 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+
 /**
- * Box. Or player. Whatever. 
+ * Scary game object. 
  */
-public class Player {
-    //Private fields to store info about our lovely player <3
-    private double width = 45;
-    private double height = 55;
-    private double velocityX = 0;
-    private double velocityY = 0;
-    private double gravity = 1.0;
-    // Add a new variable
-    private float coyoteTime = 0.1f; // 0.1 seconds of grace
-    private float timeSinceGrounded = 0;
-
+public class Spikes {
     private Rectangle2D.Double hitbox;
-    private Rectangle2D.Double previousHitbox;
+    //private Color color = Color.RED;
+    private BufferedImage image; //  spike sprite
+    private boolean activeMoving = false; 
+    private boolean activeMoving2 = false; 
 
-    private boolean onGround = false;
-    private Platform currentPlatform = null; // the platform player is standing on
-    
-    private BufferedImage image; //  s
+    private double moveSpeed = 8;
+    private double lastY; // track previous frame position
 
-    public Platform getCurrentPlatform() {
-        return currentPlatform;
-    }
-    
-    /*
-    public void update(float deltaTime) {
-        if (onGround || currentPlatform != null) {
-            timeSinceGrounded = 0; 
-        } else {
-            timeSinceGrounded += deltaTime;
-    }
-    */
-    
-    /** Constructor initalized the starting pos.
-     * 
-     * @param startX c
-     * @param startY c
+    /** To initalize we need the postion, size and the image.
+     * Setup of hitbox
+     * @param x c
+     * @param y c
+     * @param width c
+     * @param height c
+     * @param imagePath c
      */
-    public Player(int startX, int startY, String imagePath) {
-        hitbox = new Rectangle2D.Double(startX, startY, width, height);
-        previousHitbox = (Rectangle2D.Double) hitbox.clone();
-
+    public Spikes(double x, double y, double width, double height, String imagePath) {
+        hitbox = new Rectangle2D.Double(x, y, width, height);
+        lastY = y; // initialize lastY
         try {
-        this.image = ImageIO.read(new File(imagePath));
-    } catch (IOException e) {
-        System.err.println("Failed to load player image: " + imagePath);
-        e.printStackTrace();
-    }
-    }
+            image = ImageIO.read(new File(imagePath));
 
-    /** Here is our Coyote time logic. This controls the 'grace period'.
-     * When grounded timer resets to 0, when in air it will count up, the timer
-     * will then determin if the player still has a moment to jump even when walking off ledge.
-     * Called every 15ms
-     * Handles our movement gravity and timing of box.
-     * @param deltaTime e
-     */
-    public void update(float deltaTime) { 
-        if (onGround || currentPlatform != null) {
-            timeSinceGrounded = 0; // reset timer when grounded
-        } else {
-            timeSinceGrounded += deltaTime; // count time in air
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        
-        previousHitbox = (Rectangle2D.Double) hitbox.clone(); //ESSENTAL!!!where player was before
-        
-        // apply horizontal movement FIRST!!
-        hitbox.x += velocityX;
-
-        // following platfrom
-        if (currentPlatform != null) {
-            hitbox.y += currentPlatform.getDeltaY();
-        }
-        
-        // apply gravity
-        hitbox.y += velocityY;
-        velocityY += gravity;
     }
 
+    //Getter method that allows GamePanel to read spikes location (and manipulate pos)
     public Rectangle2D.Double getHitbox() {
         return hitbox;
     }
 
-    public Rectangle2D.Double getPreviousHitbox() {
-        return previousHitbox;
-    }
-
-    public double getVelocityY() {
-        return velocityY;
-    }
-
-    //All of these set speed, movement happens in update
-
-    public void moveRight() {
-        velocityX = 5; 
-    }
-
-    public void moveLeft() { 
-        velocityX = -5; 
-    }
-
-    public void stopMoving() { 
-        velocityX = 0; 
-    }
-
-    // Updated jump method.
-    /** Jump only exectues if:
-    * Standing o an STILL platform.
-    * Standing on a moving platform.
-    * Using the coyote time grace period
-    */
-    public void jump() {
-        if (onGround || currentPlatform != null || timeSinceGrounded < coyoteTime) {
-            velocityY = -18; //negative velocity which is upward movement
-            onGround = false;
-            currentPlatform = null;
-            timeSinceGrounded = coyoteTime; // prevent double jump in the grace period
-            System.out.println("Not on ground!");
-        }
-
-    }
-
     /**
- * Sets the player's position and resets movement state.
- * This is used for level initialization or respawning.
- * @param newX The new x-coordinate for the player's top-left corner.
- * @param newY The new y-coordinate for the player's top-left corner.
- */
-public void setPosition(int newX, int newY) {
-    // 1. Update the position of the hitbox
-    this.hitbox.x = newX;
-    this.hitbox.y = newY;
-    
-    // 2. Reset velocities and grounded state for a fresh start
-    this.velocityX = 0;
-    this.velocityY = 0;
-    this.onGround = false;
-    this.currentPlatform = null;
-    this.timeSinceGrounded = 0;
-    
-    // Also update previousHitbox immediately so it doesn't cause errors in the first update tick
-    this.previousHitbox.setFrame(newX, newY, width, height);
-}
-    /*    public void update() {
-        previousHitbox = (Rectangle2D.Double) hitbox.clone();
-        // apply horizontal movement FIRST!!
-        hitbox.x += velocityX;
-        //following platfrom
-        if (currentPlatform != null) {
-            hitbox.y += currentPlatform.getDeltaY();
-            // allow jumping even if platform moves down
-            
-        }
-        
-        // follow moving platform if standing on it
-
-        // apply gravity
-        hitbox.y += velocityY;
-        velocityY += gravity;
-
-       
-    } */
-
-     
-    /** ATTENTION: only method that should set onGround true.
-     * Otherwise messes up our jumping system.
-     * 
-     * @param platform landing
+     * Drawing.
+     * @param g2 e
      */
-    public void landOn(Platform platform) {
-        hitbox.y = platform.getBounds().y - height;
-        velocityY = 0;
-        onGround = true;
-        currentPlatform = platform;
-    }
-
-    public boolean checkCollision(Platform platform) {
-        return hitbox.intersects(platform.getBounds());
-    }
-
-    /** Public setter, manage the player's grounded state.
-     * It prevents the player from continuing to "follow" a platform after walking off it
-     * @param value e
-     */
-    public void setOnGround(boolean value) {
-        onGround = value;
-        if (!value) {
-            currentPlatform = null; 
-        }
-    }
-
-    /** Side collision detected.
-     * 
-     * @param platform horizontal |
-     */
-    public void handleHorizontalCollision(Platform platform) {
-        Rectangle2D.Double pb = platform.getBounds();
-
-        // If the player was moving right and hit the platform's left side:
-        if (velocityX > 0) {
-            // Reset player's x to touch the platform's left edge
-            hitbox.x = pb.x - width; 
-            // If the player was moving left and hit the platform's right side:
-        } else if (velocityX < 0) { 
-            // Reset player's x to touch the platform's right edge
-            hitbox.x = pb.getMaxX();
-        }
+    public void draw(Graphics2D g2) {
         
-        
-        
-        // Stop horizontal movement after hitting the wall
-        velocityX = 0;
-    }
-
-     public void draw(Graphics2D g2) {
         if (image != null) {
             g2.drawImage(image, (int) hitbox.x, (int) hitbox.y, 
                 (int) hitbox.width, (int) hitbox.height, null);
@@ -230,5 +57,49 @@ public void setPosition(int newX, int newY) {
             g2.setColor(customColor);
             g2.fill(hitbox);
         }
+    }
+
+    //activate platform up
+    public void activateMoving() {
+        activeMoving = true;
+    }
+
+    public void activateMoving2() {
+ 
+        activeMoving2 = true; 
+    }
+   
+    /**
+     * Physics of platform. 
+     * Stores current pos in bounds.y into lastY
+     * Applies movement so changes bounds.y into a new postion
+     */
+    public void update() {
+        lastY = hitbox.y;  // save current position before moving1 lastY =past. Bounds=future.
+        if (activeMoving && hitbox.x < 550) {
+            hitbox.x += moveSpeed; // move platform down
+        }
+        if (activeMoving2 && hitbox.x < 500 ) {
+            hitbox.x += moveSpeed;
+        }
+        
+        //We save lastY to calculte amount of frames moved
+        
+
+    }
+
+    //Is player touching the spikes? Will trigger lose condition in Gamepanel
+    public boolean checkCollision(Rectangle2D.Double playerHitbox) {
+        return hitbox.intersects(playerHitbox);
+    }
+
+    /**
+     * Setter. Abilty to change spike with external code. Level editing & traps.
+     * @param x c
+     * @param y c
+     */
+    public void setPosition(double x, double y) {
+        hitbox.x = x;
+        hitbox.y = y;
     }
 }
