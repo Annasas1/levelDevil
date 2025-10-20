@@ -1,4 +1,3 @@
-// Level1.java 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
@@ -24,27 +23,28 @@ public class Level1 implements Level {
     // ---------------------------------------------------------------------
     @Override
     public void init(Player player) {
-        // 1. Clear any old level objects before setting up the new level (Crucial for restarts)
+        //Clear any old level objects before setting up the new level (Crucial for restarts)
         platforms.clear();
         spikes.clear();
 
-        // 2. RESET PLAYER to start position
+        //player starts pos
         player.setPosition(150, 300); 
 
-        // 3. ADD YOUR PLATFORMS
-        platforms.add(new Platform(0, 400, 1000, 400)); // Ground
+        int spikeWidth = 50;
+        for (int x = 0; x < 1000; x += spikeWidth) {
+            spikes.add(new Spikes(x, 508, spikeWidth, 55, "singleSpike.png"));
+        }
+
+        //ground
+        platforms.add(new Platform(0, 400, 1000, 400)); 
         // platforms.add(new Platform(200, 200, 200, 30)); // floating platform 1
         platforms.add(new Platform(400, 250, 150, 30)); // Floating platform 2
         platforms.add(new Platform(0, 0, 50, 600));      // left wall
         platforms.add(new Platform(940, 0, 50, 600));    // right wall
         
-        // 4. ADD YOUR SPIKES (Example: bottom row of spikes)
-        int spikeWidth = 50;
-        for (int x = 0; x < 1000; x += spikeWidth) {
-            spikes.add(new Spikes(x, 508, spikeWidth, 55, "singleSpike.png"));
-        }
         
-        // 5. SET DOOR position
+        
+        //win
         door.setPosition(700, 325); 
     }
     
@@ -54,7 +54,7 @@ public class Level1 implements Level {
     @Override
     public void update(float delta, Player box, boolean jumpQueued, GameManager gameController) {
         
-        // 1. Update platforms (Platform specific movement logic)
+        // Update platforms (Platform specific movement logic)
         for (Platform p : platforms) { 
             // Add your old platform movement logic here:
             if (p.getBounds().y == 400 && box.getHitbox().x > 250) {
@@ -65,6 +65,14 @@ public class Level1 implements Level {
 
         // 2. Update player movement and physics
         box.update(delta);
+
+        for (Spikes s : spikes) {
+            if (s.checkCollision(box.getHitbox())) {
+                // Level 1 logic: Die!
+                gameController.levelFailed(); 
+                //System.out.println("boo-hoo");
+            }
+        }
         
         // 3. Handle collisions 
         boolean landed = false;
@@ -91,23 +99,18 @@ public class Level1 implements Level {
             box.setOnGround(false); 
         }
 
-        // 4. Handle jump queue (only jumps if box is on the ground, checked internally by box.jump())
+        // Handle jump queue (only jumps if box is on the ground, checked internally by box.jump())
         if (jumpQueued) { 
             box.jump(); 
-            // Note: GamePanel resets jumpQueued to false in the next iteration.
+            
         }
 
-        // 5. Check Win/Lose Conditions and notify the GameManager
+        //  Check Win/Lose Conditions and notify the GameManager
         if (door.checkCollision(box.getHitbox())) {
             // Level 1 logic: Win!
             gameController.levelCompleted(getLevelID()); 
         }
-        for (Spikes s : spikes) {
-            if (s.checkCollision(box.getHitbox())) {
-                // Level 1 logic: Die!
-                gameController.levelFailed(); 
-            }
-        }
+        
     }
     
     // ---------------------------------------------------------------------
@@ -116,8 +119,9 @@ public class Level1 implements Level {
     @Override
     public void draw(Graphics2D g) {
         // Draw level elements (platforms, door, spikes)
+        for (Spikes s : spikes) { s.draw(g); } //spikes have to stay hidden
         for (Platform p : platforms) { p.draw(g); }
         door.draw(g);
-        for (Spikes s : spikes) { s.draw(g); }
+        
     }
 }
