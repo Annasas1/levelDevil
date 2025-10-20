@@ -7,8 +7,10 @@ import java.awt.geom.Rectangle2D;
 public class Platform {
     //Class fields (attributes) will be kept private for encapsulation
     private Rectangle2D.Double bounds; //x,y and width,height
-    //Movement:
+ 
     private boolean activeDown = false; 
+    
+    private boolean activeDownFast = false; 
     //private boolean activeLeft = false;
     //private boolean activeRight = false;
     private boolean activeUp = false;
@@ -50,6 +52,10 @@ public class Platform {
         activeDown = true; 
     }
 
+     public void activateDownfast() {
+        activeDownFast = true; 
+    }
+
     //activate platform up
     public void activateUp() {
         activeUp = true; 
@@ -67,6 +73,9 @@ public class Platform {
         }
         if (activeUp) {
             bounds.y -= moveSpeed;
+        }
+        if(activeDownFast) {
+            bounds.y += 20;
         }
         //We save lastY to calculte amount of frames moved
         
