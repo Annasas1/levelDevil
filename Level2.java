@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 
-public class Level1 implements Level {
+public class Level2 implements Level {
     // ---------------------------------------------------------------------
     // Level Specific Data (Platforms, Spikes, Door)
     // ---------------------------------------------------------------------
@@ -15,7 +15,7 @@ public class Level1 implements Level {
     
     @Override
     public int getLevelID() { 
-        return 1; 
+        return 2; 
     }
     
     // ---------------------------------------------------------------------
@@ -29,16 +29,22 @@ public class Level1 implements Level {
 
         //player starts pos
         player.setPosition(150, 300); 
+        spikes.add(new Spikes(440,350,50,55, "singleSpike.png"));
+        
+        spikes.add(new Spikes(490,350,50,55, "singleSpike.png"));
 
+        
+        spikes.add(new Spikes(220,350,50,55, "singleSpike.png"));
+        
+        spikes.add(new Spikes(270,350,50,55, "singleSpike.png"));
         int spikeWidth = 50;
-        for (int x = 0; x < 1000; x += spikeWidth) {
-            spikes.add(new Spikes(x, 508, spikeWidth, 55, "singleSpike.png"));
+       
+        for (int x = 400; x < 500; x += spikeWidth) {
+            //spikes.add(new Spikes(x, 350, spikeWidth, 55, "singleSpike.png"));
         }
 
         //ground
-        platforms.add(new Platform(0, 400, 1000, 400)); 
-        // platforms.add(new Platform(200, 200, 200, 30)); // floating platform 1
-        platforms.add(new Platform(400, 250, 150, 30)); // Floating platform 2
+        platforms.add(new Platform(0, 401, 1000, 400)); 
         platforms.add(new Platform(0, 0, 50, 600));      // left wall
         platforms.add(new Platform(940, 0, 50, 600));    // right wall
         
@@ -67,11 +73,25 @@ public class Level1 implements Level {
         box.update(delta);
 
         for (Spikes s : spikes) {
-            if (s.checkCollision(box.getHitbox())) {
+                if (s.checkCollision(box.getHitbox())) {
                 // Level 1 logic: Die!
+                
+               
                 gameController.levelFailed(); 
+                
                 //System.out.println("boo-hoo");
             }
+                if (s.getHitbox().x == 490 && box.getHitbox().x > 410) {
+                        s.activateMoving();
+                        System.out.println("imh ere");
+                    }
+                if (s.getHitbox().x == 440 && box.getHitbox().x > 410) {
+                        s.activateMoving2();
+                        System.out.println("imh ere");
+                    }
+
+
+            s.update();
         }
         
         // 3. Handle collisions 
@@ -99,10 +119,8 @@ public class Level1 implements Level {
             box.setOnGround(false); 
         }
 
-        // Handle jump queue (only jumps if box is on the ground, checked internally by box.jump())
         if (jumpQueued) { 
             box.jump(); 
-            
         }
 
         //  Check Win/Lose Conditions and notify the GameManager
@@ -119,8 +137,12 @@ public class Level1 implements Level {
     @Override
     public void draw(Graphics2D g) {
         // Draw level elements (platforms, door, spikes)
-        for (Spikes s : spikes) { s.draw(g); } //spikes have to stay hidden
-        for (Platform p : platforms) { p.draw(g); }
+        for (Spikes s : spikes) { 
+            s.draw(g); 
+        } //spikes have to stay hidden
+        for (Platform p : platforms) { 
+            p.draw(g); 
+        }
         door.draw(g);
         
     }
