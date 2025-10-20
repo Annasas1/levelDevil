@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * Box. Or player. Whatever. 
+ * Box. Or player. Whatever. !
  */
 public class Player {
     //Private fields to store info about our lovely player <3
