@@ -13,7 +13,7 @@ import javax.swing.*;
  *  */ 
 
  
-public class Gamepanel extends JPanel implements KeyListener {
+public class GamePanel extends JPanel implements KeyListener {
     
     //for fixing the order queue of the jump
     private boolean jumpQueued = false;
@@ -32,7 +32,7 @@ public class Gamepanel extends JPanel implements KeyListener {
     /** Game is built and main animation loop.
      * 
      */
-    Gamepanel(GameManager gameController) {
+    GamePanel(GameManager gameController) {
         this.gameController = gameController;
         
         Color customColory = Color.decode("#525064"); // Set background/setup here
@@ -214,7 +214,7 @@ public class Gamepanel extends JPanel implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             box.moveUp();  */
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            jumpQueued = true; //Executed in gameloop
+            jumpQueued = true; //Executed in gameloop 
         }
         //repaint(); 
     }
