@@ -12,9 +12,15 @@ import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 // Level.java
+/**
+ *  ra.
+ */
 public interface Level {
     void init(Player player); // Initialize the level with the player object
+
     void update(float delta, Player player, boolean jumpQueued, GameManager controller); // Core game logic
+    
     void draw(Graphics2D g); // Drawing logic
+    
     int getLevelID();
 }
