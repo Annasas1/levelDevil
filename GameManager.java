@@ -1,3 +1,4 @@
+
 import java.awt.CardLayout;
 import javax.swing.*;
 
@@ -7,8 +8,10 @@ public class GameManager { // This is the central manager!
     private JPanel mainContainer; // Holds all JPanels
     private int highestLevelCompleted = 0;
     
-    // Use a single reference for the GamePanel instance that will run Level 1
-    private Gamepanel level1Panel; 
+    // all levels here
+    private GamePanel level1Panel; 
+    private GamePanel level2Panel;
+    private GamePanel level3Panel;
 
     private LevelCompleted winScreen; 
     private LevelFailed loseScreen;
@@ -21,11 +24,21 @@ public class GameManager { // This is the central manager!
         
         // 1. Create ALL screens and add them to the main container
         
-        // A. Create and add GamePanel (Level 1)
-        level1Panel = new Gamepanel(this);
+        // Create and add GamePanel (Level 1)
+        level1Panel = new GamePanel(this);
         level1Panel.setName("LEVEL_1");
         mainContainer.add(level1Panel, "LEVEL_1");
+
+        //level numero 2
+        level2Panel = new GamePanel(this);
+        level2Panel.setName("LEVEL_2");
+        mainContainer.add(level2Panel, "LEVEL_2");
         
+        //level numero 3
+        level3Panel = new GamePanel(this);
+        level3Panel.setName("LEVEL_3");
+        mainContainer.add(level3Panel, "LEVEL_3");
+
         // B. Create and add Win/Lose screens
         winScreen = new LevelCompleted(this); 
         loseScreen = new LevelFailed(this); 
@@ -45,9 +58,12 @@ public class GameManager { // This is the central manager!
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 600);
         frame.add(mainContainer);
+        frame.setResizable(false);
         
-        // NOTE: We load Level 1 data once here, so it's ready when requested.
+        // NOTE: We load data once here, so it's ready when requested.
         level1Panel.load(new Level1());
+        level2Panel.load(new Level2());
+        level3Panel.load(new Level3());
         
         // 3. Start on the START MENU!
         // FIX: Switch the initial screen from "MAIN_MENU" to "START_MENU".
@@ -56,7 +72,7 @@ public class GameManager { // This is the central manager!
         frame.setVisible(true); 
     }
 
-    // --- Flow Control Methods (No changes needed here) ---
+    // Flow Control Methods
     
     public void switchToScreen(String screenName) {
         cardLayout.show(mainContainer, screenName);
@@ -82,30 +98,40 @@ public class GameManager { // This is the central manager!
     }
     
     public void startLevel(int levelNumber) {
-        // We only have level1Panel right now, so this handles only level 1.
+        // levels
         
-        // 1. Stop any currently running loop before switching
         level1Panel.stopLevelLoop(); 
+        level2Panel.stopLevelLoop();
+        level3Panel.stopLevelLoop();
         
         String levelKey = "LEVEL_" + levelNumber;
-        
-        // 2. Load the specific level data into the GamePanel instance
-        // Since we already loaded it in the constructor, we just ensure player reset here:
+        GamePanel panelToStartLevel = null;
+
+        //  Load the specific level data into the GamePanel instance
+        // Since we already loaded it in the constructor, we just player reset here:
         if (levelNumber == 1) {
-             // Calling load again runs the Level1.init(player) which resets the player position.
             level1Panel.load(new Level1()); 
+            panelToStartLevel = level1Panel;
+        } else if (levelNumber == 2) {
+            level2Panel.load(new Level2());
+            panelToStartLevel = level2Panel;
+        } else if (levelNumber == 3) {
+            level3Panel.load(new Level3());
+            panelToStartLevel = level3Panel;
         }
         
-        // 3. Switch the display
         switchToScreen(levelKey);
         
-        // 4. Start the game loop
-        level1Panel.startLevelLoop(); 
+        if (panelToStartLevel != null) {
+            panelToStartLevel.startLevelLoop();
+        }
     }
     
     public void levelCompleted(int levelNumber) {
-        // ... (No changes) ...
+        // stopping otherwise it gives win or lose wrong
         level1Panel.stopLevelLoop(); 
+        level2Panel.stopLevelLoop(); 
+        level3Panel.stopLevelLoop(); 
         if (levelNumber > highestLevelCompleted) {
             highestLevelCompleted = levelNumber;
         }
@@ -113,8 +139,10 @@ public class GameManager { // This is the central manager!
     }
 
     public void levelFailed() {
-        // ... (No changes) ...
+        // tada
         level1Panel.stopLevelLoop(); 
+        level2Panel.stopLevelLoop(); 
+        level3Panel.stopLevelLoop(); 
         switchToScreen("LOSE_SCREEN");
     }
 
