@@ -214,7 +214,7 @@ public class GamePanel extends JPanel implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             box.moveUp();  */
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            jumpQueued = true; //Executed in gameloop 
+            jumpQueued = true; //Executed in gameloop
         }
         //repaint(); 
     }
