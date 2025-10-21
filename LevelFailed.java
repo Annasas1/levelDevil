@@ -1,14 +1,17 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 
 // I DID NOT ADD ANY COMMENTS BY NOW
@@ -19,6 +22,8 @@ public class LevelFailed extends JPanel {
 
     private Image backgroundImage2;
     private GameManager gameManager;
+    private Font customfont;
+
 
 
     /**description of class.
@@ -26,22 +31,24 @@ public class LevelFailed extends JPanel {
     * @param frame about frame.
     */
     public LevelFailed(GameManager manager) {
-        backgroundImage2 = new ImageIcon("b2.jpg").getImage();
+        backgroundImage2 = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\BackgroundWinLooseScreen (2).png").getImage();
         
-       this.gameManager = manager;
+        this.gameManager = manager;
 
         // setBackground(Color.GRAY);
         setLayout(null);
+        loadCustomFont();
 
         JButton button = new JButton("return to menu");
         button.setBounds(200, 325, 600, 150);
         button.setBackground(Color.BLACK);
         button.setForeground(Color.WHITE);
-        button.setFont(new Font("Broadway", Font.ITALIC | Font.BOLD, 50));
+        button.setFont(customfont != null ? customfont.deriveFont(Font.BOLD, 40f): new Font("Broadway", Font.PLAIN, 40));
+        button.setFocusPainted(false);
         button.setFocusPainted(false);
         add(button);
 
-      button.addActionListener(new ActionListener() {
+        button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
@@ -56,7 +63,19 @@ public class LevelFailed extends JPanel {
         });
     }
 
-     private void playSound(String soundFilePath) {
+    private void loadCustomFont() {
+        try {
+            customfont = Font.createFont(Font.TRUETYPE_FONT, new File("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\minecraft\\Minecraft.ttf"));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(customfont);
+        } catch (FontFormatException | IOException e) {
+            System.err.println("Failed to load custom font, falling back to default.");
+            e.printStackTrace();
+            customfont = null;
+        }
+    }
+
+    private void playSound(String soundFilePath) {
         try {
             File soundFile1 = new File(soundFilePath);
             AudioInputStream audio1 = AudioSystem.getAudioInputStream(soundFile1);
@@ -73,16 +92,16 @@ public class LevelFailed extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-         if (backgroundImage2 != null) {
+        if (backgroundImage2 != null) {
             g2d.drawImage(backgroundImage2, 0, 0, getWidth(), getHeight(), this);
         } 
 
 
         
-        Font font = new Font("Broadway", Font.BOLD | Font.ITALIC, 50);
-        g2d.setFont(font);
+        Font titleFont = customfont != null ? customfont.deriveFont(Font.PLAIN, 45f) : new Font("Broadway", Font.BOLD, 45);
+        g2d.setFont(titleFont);
         g2d.setColor(Color.WHITE);
-        g2d.drawString("YOU FAILED HAHA", 225, 100);
+        g2d.drawString("Oooops! You failed :(", 260, 120);
     }
 /* 
     public static void main(String[] args) {
