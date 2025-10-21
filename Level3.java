@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -12,6 +11,7 @@ public class Level3 implements Level {
     private ArrayList<Platform> platforms = new ArrayList<>();
     private ArrayList<Spikes> spikes = new ArrayList<>(); 
     private Door door = new Door(0, 100, 50, 80, "door1.PNG"); 
+    private boolean messageToUser = true;
     
     @Override
     public int getLevelID() { 
@@ -50,6 +50,12 @@ public class Level3 implements Level {
         
         //win
         door.setPosition(700, 325); 
+
+        messageToUser = true;
+
+        Timer timer = new Timer(5000, e -> messageToUser = false);
+        timer.setRepeats(false);
+        timer.start();
     }
     
     // ---------------------------------------------------------------------
@@ -141,6 +147,20 @@ public class Level3 implements Level {
         for (Spikes s : spikes) { s.draw(g); } //spikes have to stay hidden
         for (Platform p : platforms) { p.draw(g); }
         door.draw(g);
+
+        if (messageToUser) {
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("TimesNewRoman", Font.BOLD, 25));
+            String message = "Be careful! Floor can disappear!";
+            
+            // Center the text
+            FontMetrics fm = g.getFontMetrics();
+            int textWidth = fm.stringWidth(message);
+            int x = (1000 - textWidth) / 2; 
+            int y = 100; 
+            
+            g.drawString(message, x, y);
+        }
         
     }
 }
