@@ -55,6 +55,7 @@ public class GameManager { // This is the central manager!
         mainContainer.add(startMenuPanel, "START_MENU");
 
         // 2. Initial Setup
+    
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 600);
         frame.add(mainContainer);
@@ -69,6 +70,7 @@ public class GameManager { // This is the central manager!
         // FIX: Switch the initial screen from "MAIN_MENU" to "START_MENU".
         switchToScreen("START_MENU");
         
+        frame.setLocationRelativeTo(null); 
         frame.setVisible(true); 
     }
 
@@ -92,9 +94,9 @@ public class GameManager { // This is the central manager!
                 if (comp instanceof MainMenu) { 
                     ((MainMenu) comp).refreshLevelButtons();
                     break;
-                }
+               }
             }
-        }
+       }
     }
     
     public void startLevel(int levelNumber) {
@@ -146,8 +148,8 @@ public class GameManager { // This is the central manager!
         switchToScreen("LOSE_SCREEN");
     }
 
-    public int getHighestLevelCompleted() {
-        return highestLevelCompleted;
+   public int getHighestLevelCompleted() {
+       return highestLevelCompleted;
     }
     
     // --- Main Method ---
