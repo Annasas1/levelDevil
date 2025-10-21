@@ -1,11 +1,14 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -18,24 +21,27 @@ import javax.swing.*;
 public class StartMenu extends JPanel {
     private Image backgroundImage;
     private GameManager gameManager; // Field to store the reference to the central manager
+    private Font customfont;
 
-    /**
+    /** nnbv.
      *
      * * @param manager T
      */
     public StartMenu(GameManager manager) {
         this.gameManager = manager; 
         
-        backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\b2.jpg").getImage();
+        backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\BackgroundStartMenu (7).png").getImage();
         
         setBackground(Color.GRAY);
         setLayout(null);
 
-        JButton button = new JButton("START");
+        loadCustomFont();
+
+        JButton button = new JButton("start");
         button.setBounds(315, 350, 370, 150);
         button.setBackground(Color.BLACK);
         button.setForeground(Color.WHITE);
-        button.setFont(new Font("Broadway", Font.ITALIC | Font.BOLD, 70));
+        button.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 40f): new Font("Broadway", Font.PLAIN, 40));
         button.setFocusPainted(false);
         add(button);
 
@@ -47,6 +53,18 @@ public class StartMenu extends JPanel {
                 gameManager.switchToScreen("MAIN_MENU");
             }
         });
+    }
+
+    private void loadCustomFont() {
+        try {
+            customfont = Font.createFont(Font.TRUETYPE_FONT, new File("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\minecraft\\Minecraft.ttf"));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(customfont);
+        } catch (FontFormatException | IOException e) {
+            System.err.println("Failed to load custom font, falling back to default.");
+            e.printStackTrace();
+            customfont = null;
+        }
     }
 
     private void playSound(String soundFilePath) {
@@ -67,14 +85,15 @@ public class StartMenu extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         if (backgroundImage != null) {
-            g2d.drawImage(backgroundImage, 0, 0, 1000, 800, this);
+            g2d.drawImage(backgroundImage, 0, 0, 1000, 600, this);
         }
         
-        Font font = new Font("Broadway", Font.BOLD | Font.ITALIC, 50);
-        g2d.setFont(font);
+       Font titleFont = customfont != null ? customfont.deriveFont(Font.BOLD, 60f) : new Font("Broadway", Font.BOLD, 60);
+        g2d.setFont(titleFont);
         g2d.setColor(Color.WHITE);
-        g2d.drawString("LEVEL DEVIL", 300, 100);
+        g2d.drawString("Level Devil", 331, 120);
     }
+    
     
     // The main method remains commented out, ensuring GameManager controls the startup.
 }
