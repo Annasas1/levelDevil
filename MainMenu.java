@@ -1,11 +1,14 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -24,7 +27,7 @@ public class MainMenu extends JPanel  {
     private JButton button4;
     private Image backgroundImage;
     private GameManager gameManager;
-    
+    private Font customfont;
     /**description of class.
      * 
      * @param frame about frame
@@ -32,43 +35,44 @@ public class MainMenu extends JPanel  {
     public MainMenu(GameManager manager) {
         this.gameManager = manager;
 
-        backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\b2.jpg").getImage();
+        backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\BackgroundWinLooseScreen (2).png").getImage();
         setBackground(Color.GRAY);
         setLayout(null); 
+        loadCustomFont();
     
-        button1 = new JButton("LEVEL 1");
-        button1.setBounds(420, 225, 150, 40);
+        button1 = new JButton("Level 1");
+        button1.setBounds(425, 200, 150, 40);
         button1.setBackground(Color.BLACK);
         button1.setForeground(Color.WHITE);
-        button1.setFont(new Font("Broadway", Font.ITALIC | Font.BOLD, 10));
+        button1.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f): new Font("Broadway", Font.PLAIN, 15));
         button1.setFocusPainted(false);
         add(button1);
         
 
-        button2 = new JButton("LEVEL 2");
-        button2.setBounds(420, 325, 150, 40);
+        button2 = new JButton("Level 2");
+        button2.setBounds(425, 300, 150, 40);
         button2.setBackground(Color.BLACK);
         button2.setForeground(Color.WHITE);
-        button2.setFont(new Font("Broadway", Font.ITALIC | Font.BOLD, 10));
+        button2.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f): new Font("Broadway", Font.PLAIN, 15));
         button2.setFocusPainted(false);
         button2.setEnabled(false);
         add(button2);
      
-        button3 = new JButton("LEVEL 3");
-        button3.setBounds(420, 425, 150, 40);
+        button3 = new JButton("Level 3");
+        button3.setBounds(425, 400, 150, 40);
         button3.setBackground(Color.BLACK);
         button3.setForeground(Color.WHITE);
-        button3.setFont(new Font("Broadway", Font.ITALIC | Font.BOLD, 10));
+        button3.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f): new Font("Broadway", Font.PLAIN, 15));
         button3.setFocusPainted(false);
-        button3.setEnabled(false);
+       button3.setEnabled(false);
         add(button3);
        
 
-        button4 = new JButton("RETURN");
-        button4.setBounds(100, 75, 100, 30);
+        button4 = new JButton("return");
+        button4.setBounds(100, 65, 150, 40);
         button4.setBackground(Color.BLACK);
         button4.setForeground(Color.WHITE);
-        button4.setFont(new Font("Broadway", Font.ITALIC | Font.BOLD, 10));
+        button4.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f): new Font("Broadway", Font.PLAIN, 15));
         button4.setFocusPainted(false);
         add(button4);
        
@@ -127,15 +131,28 @@ public class MainMenu extends JPanel  {
             }
         });
     
-        TimedLabel message1 = new TimedLabel("LEVEL 1 AVAILABLE", 5000);
-        message1.setBounds(350, 180, 300, 40);
+        TimedLabel message1 = new TimedLabel("level 1 is available!", 1000);
+        message1.setBounds(350, 150, 300, 50);
         add(message1);
     }
 
-    public void refreshLevelButtons() {
+   public void refreshLevelButtons() {
         int highest = gameManager.getHighestLevelCompleted();
         button2.setEnabled(highest >= 1);
         button3.setEnabled(highest >= 2);
+        
+    }
+
+     private void loadCustomFont() {
+        try {
+            customfont = Font.createFont(Font.TRUETYPE_FONT, new File("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\minecraft\\Minecraft.ttf"));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(customfont);
+        } catch (FontFormatException | IOException e) {
+          //  System.err.println("Failed to load custom font, falling back to default.");
+          //  e.printStackTrace();
+          //  customfont = null;
+        }
     }
 
 
@@ -147,7 +164,7 @@ public class MainMenu extends JPanel  {
             clip.open(audio1);
             clip.start();
         } catch (Exception e) {
-          System.err.println("Sound error: " + e.getMessage());  
+        //    System.err.println("Sound error: " + e.getMessage());  
         }
     }
     @Override
@@ -156,13 +173,13 @@ public class MainMenu extends JPanel  {
         Graphics2D g2d = (Graphics2D) g;
 
          if (backgroundImage != null) {
-            g2d.drawImage(backgroundImage, 0, 0, 1000, 800, this);
+            g2d.drawImage(backgroundImage, 0, 0, 1000, 565, this);
         }
             
-        Font font = new Font("Broadway", Font.BOLD | Font.ITALIC, 25);
-        g2d.setFont(font);
+        Font titleFont = customfont != null ? customfont.deriveFont(Font.BOLD,  40f) : new Font("Broadway", Font.BOLD , 40);
+        g2d.setFont(titleFont);
         g2d.setColor(Color.WHITE);
-        g2d.drawString("LEVEL DEVIL", 400, 100);
+        g2d.drawString("Level Devil", 386, 100);
             
     }
 
@@ -173,12 +190,30 @@ public class MainMenu extends JPanel  {
         public TimedLabel(String text, int durationMillis) {
             super(text);
             setForeground(Color.WHITE);
-            setFont(new Font("Algerian", Font.ITALIC | Font.BOLD, 10));
+            setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 20f): new Font("Broadway", Font.PLAIN, 20));
             setHorizontalAlignment(SwingConstants.CENTER);
             setOpaque(false); 
 
-           
-            new Timer(5000, e -> setVisible(false)).start();
+            startBlinking(durationMillis);
+            //new Timer(5000, e -> setVisible(false)).start();
+        }
+
+        private void startBlinking(int intervalMillis) {
+            final int[] blinkCount = {0};
+        
+            Timer timer = new Timer(intervalMillis, new ActionListener() {
+                @Override
+            public void actionPerformed(ActionEvent e) {
+                    if (blinkCount[0] < 8) { 
+                        setVisible(!isVisible());
+                        blinkCount[0]++;
+                    } else {
+                        ((Timer) e.getSource()).stop();
+                        setVisible(false); 
+                }
+                }
+            });
+            timer.start();
         }
     }
     
