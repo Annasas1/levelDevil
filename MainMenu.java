@@ -28,14 +28,15 @@ public class MainMenu extends JPanel  {
     private Image backgroundImage;
     private GameManager gameManager;
     private Font customfont;
-    /**description of class.
+
+    /** Description of class.
      * 
      * @param frame about frame
      */
     public MainMenu(GameManager manager) {
         this.gameManager = manager;
 
-        backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\BackgroundWinLooseScreen (2).png").getImage();
+        backgroundImage = new ImageIcon("BackgroungMENU.png").getImage();
         setBackground(Color.GRAY);
         setLayout(null); 
         loadCustomFont();
@@ -44,7 +45,8 @@ public class MainMenu extends JPanel  {
         button1.setBounds(425, 200, 150, 40);
         button1.setBackground(Color.BLACK);
         button1.setForeground(Color.WHITE);
-        button1.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f): new Font("Broadway", Font.PLAIN, 15));
+        button1.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f)
+            : new Font("Broadway", Font.PLAIN, 15));
         button1.setFocusPainted(false);
         add(button1);
         
@@ -53,7 +55,8 @@ public class MainMenu extends JPanel  {
         button2.setBounds(425, 300, 150, 40);
         button2.setBackground(Color.BLACK);
         button2.setForeground(Color.WHITE);
-        button2.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f): new Font("Broadway", Font.PLAIN, 15));
+        button2.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f)
+            : new Font("Broadway", Font.PLAIN, 15));
         button2.setFocusPainted(false);
         button2.setEnabled(false);
         add(button2);
@@ -62,9 +65,10 @@ public class MainMenu extends JPanel  {
         button3.setBounds(425, 400, 150, 40);
         button3.setBackground(Color.BLACK);
         button3.setForeground(Color.WHITE);
-        button3.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f): new Font("Broadway", Font.PLAIN, 15));
+        button3.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f)
+            : new Font("Broadway", Font.PLAIN, 15));
         button3.setFocusPainted(false);
-       button3.setEnabled(false);
+        button3.setEnabled(false);
         add(button3);
        
 
@@ -72,7 +76,8 @@ public class MainMenu extends JPanel  {
         button4.setBounds(100, 65, 150, 40);
         button4.setBackground(Color.BLACK);
         button4.setForeground(Color.WHITE);
-        button4.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f): new Font("Broadway", Font.PLAIN, 15));
+        button4.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f)
+            : new Font("Broadway", Font.PLAIN, 15));
         button4.setFocusPainted(false);
         add(button4);
        
@@ -80,7 +85,7 @@ public class MainMenu extends JPanel  {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
+                playSound("CSoundClickingMenuButtons.wav");
                 gameManager.startLevel(1);
 
 
@@ -94,7 +99,7 @@ public class MainMenu extends JPanel  {
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-            playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
+                playSound("SoundClickingMenuButtons.wav");
                 gameManager.startLevel(2);
                 
 
@@ -108,7 +113,7 @@ public class MainMenu extends JPanel  {
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
+                playSound("SoundClickingMenuButtons.wav");
                 gameManager.startLevel(3);
 
                 //frame.setContentPane(level3);
@@ -120,7 +125,7 @@ public class MainMenu extends JPanel  {
         button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
+                playSound("SoundClickingMenuButtons.wav");
                 //StartMenu returnback = new StartMenu(frame);
 
                 //frame.setContentPane(returnback);
@@ -136,16 +141,19 @@ public class MainMenu extends JPanel  {
         add(message1);
     }
 
-   public void refreshLevelButtons() {
+    /**
+     * Some summary.
+     */
+    public void refreshLevelButtons() {
         int highest = gameManager.getHighestLevelCompleted();
         button2.setEnabled(highest >= 1);
         button3.setEnabled(highest >= 2);
         
     }
 
-     private void loadCustomFont() {
+    private void loadCustomFont() {
         try {
-            customfont = Font.createFont(Font.TRUETYPE_FONT, new File("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\minecraft\\Minecraft.ttf"));
+            customfont = Font.createFont(Font.TRUETYPE_FONT, new File("Minecraft.ttf"));
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customfont);
         } catch (FontFormatException | IOException e) {
@@ -156,7 +164,7 @@ public class MainMenu extends JPanel  {
     }
 
 
-        private void playSound(String soundFilePath) {
+    private void playSound(String soundFilePath) {
         try {
             File soundFile1 = new File(soundFilePath);
             AudioInputStream audio1 = AudioSystem.getAudioInputStream(soundFile1);
@@ -167,16 +175,19 @@ public class MainMenu extends JPanel  {
         //    System.err.println("Sound error: " + e.getMessage());  
         }
     }
+
     @Override
-        protected void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-         if (backgroundImage != null) {
-            g2d.drawImage(backgroundImage, 0, 0, 1000, 565, this);
+        if (backgroundImage != null) {
+            g2d.drawImage(backgroundImage, 0, 0, 988, 565, this);
         }
             
-        Font titleFont = customfont != null ? customfont.deriveFont(Font.BOLD,  40f) : new Font("Broadway", Font.BOLD , 40);
+        Font titleFont = customfont != null ? customfont.deriveFont(Font.BOLD,  40f) 
+            : new Font("Broadway", Font.BOLD, 40);
+        
         g2d.setFont(titleFont);
         g2d.setColor(Color.WHITE);
         g2d.drawString("Level Devil", 386, 100);
@@ -190,7 +201,8 @@ public class MainMenu extends JPanel  {
         public TimedLabel(String text, int durationMillis) {
             super(text);
             setForeground(Color.WHITE);
-            setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 20f): new Font("Broadway", Font.PLAIN, 20));
+            setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 20f)
+                : new Font("Broadway", Font.PLAIN, 20));
             setHorizontalAlignment(SwingConstants.CENTER);
             setOpaque(false); 
 
@@ -210,7 +222,7 @@ public class MainMenu extends JPanel  {
                     } else {
                         ((Timer) e.getSource()).stop();
                         setVisible(false); 
-                }
+                    }
                 }
             });
             timer.start();
