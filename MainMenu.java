@@ -31,7 +31,7 @@ public class MainMenu extends JPanel  {
 
     /** Description of class.
      * 
-     * @param frame about frame
+     * @param frame 
      */
     public MainMenu(GameManager manager) {
         this.gameManager = manager;
@@ -45,8 +45,7 @@ public class MainMenu extends JPanel  {
         button1.setBounds(425, 200, 150, 40);
         button1.setBackground(Color.BLACK);
         button1.setForeground(Color.WHITE);
-        button1.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f)
-            : new Font("Broadway", Font.PLAIN, 15));
+        button1.setFont(customfont.deriveFont(Font.PLAIN, 15f));
         button1.setFocusPainted(false);
         add(button1);
         
@@ -55,8 +54,7 @@ public class MainMenu extends JPanel  {
         button2.setBounds(425, 300, 150, 40);
         button2.setBackground(Color.BLACK);
         button2.setForeground(Color.WHITE);
-        button2.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f)
-            : new Font("Broadway", Font.PLAIN, 15));
+        button2.setFont(customfont.deriveFont(Font.PLAIN, 15f));
         button2.setFocusPainted(false);
         button2.setEnabled(false);
         add(button2);
@@ -65,8 +63,7 @@ public class MainMenu extends JPanel  {
         button3.setBounds(425, 400, 150, 40);
         button3.setBackground(Color.BLACK);
         button3.setForeground(Color.WHITE);
-        button3.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f)
-            : new Font("Broadway", Font.PLAIN, 15));
+        button3.setFont(customfont.deriveFont(Font.PLAIN, 15f));
         button3.setFocusPainted(false);
         button3.setEnabled(false);
         add(button3);
@@ -76,8 +73,7 @@ public class MainMenu extends JPanel  {
         button4.setBounds(100, 65, 150, 40);
         button4.setBackground(Color.BLACK);
         button4.setForeground(Color.WHITE);
-        button4.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 15f)
-            : new Font("Broadway", Font.PLAIN, 15));
+        button4.setFont(customfont.deriveFont(Font.PLAIN, 15f));
         button4.setFocusPainted(false);
         add(button4);
        
@@ -185,8 +181,7 @@ public class MainMenu extends JPanel  {
             g2d.drawImage(backgroundImage, 0, 0, 988, 565, this);
         }
             
-        Font titleFont = customfont != null ? customfont.deriveFont(Font.BOLD,  40f) 
-            : new Font("Broadway", Font.BOLD, 40);
+        Font titleFont = customfont.deriveFont(Font.BOLD,  40f);
         
         g2d.setFont(titleFont);
         g2d.setColor(Color.WHITE);
@@ -201,8 +196,7 @@ public class MainMenu extends JPanel  {
         public TimedLabel(String text, int durationMillis) {
             super(text);
             setForeground(Color.WHITE);
-            setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 20f)
-                : new Font("Broadway", Font.PLAIN, 20));
+            setFont(customfont.deriveFont(Font.PLAIN, 20f));
             setHorizontalAlignment(SwingConstants.CENTER);
             setOpaque(false); 
 
