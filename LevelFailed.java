@@ -28,10 +28,10 @@ public class LevelFailed extends JPanel {
 
     /**description of class.
     * 
-    * @param frame about frame.
+    * @param 
     */
     public LevelFailed(GameManager manager) {
-        backgroundImage2 = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\BackgroundWinLooseScreen (2).png").getImage();
+        backgroundImage2 = new ImageIcon("BackgroungMENU.png").getImage();
         
         this.gameManager = manager;
 
@@ -43,7 +43,7 @@ public class LevelFailed extends JPanel {
         button.setBounds(200, 325, 600, 150);
         button.setBackground(Color.BLACK);
         button.setForeground(Color.WHITE);
-        button.setFont(customfont != null ? customfont.deriveFont(Font.BOLD, 40f): new Font("Broadway", Font.PLAIN, 40));
+        button.setFont(customfont.deriveFont(Font.BOLD, 40f));
         button.setFocusPainted(false);
         button.setFocusPainted(false);
         add(button);
@@ -51,7 +51,7 @@ public class LevelFailed extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
+                playSound("SoundClickingMenuButtons.wav");
                 /*MainMenu returnback = new MainMenu(frame);
 
                 frame.setContentPane(returnback);
@@ -65,7 +65,7 @@ public class LevelFailed extends JPanel {
 
     private void loadCustomFont() {
         try {
-            customfont = Font.createFont(Font.TRUETYPE_FONT, new File("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\minecraft\\Minecraft.ttf"));
+            customfont = Font.createFont(Font.TRUETYPE_FONT, new File("Minecraft.ttf"));
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customfont);
         } catch (FontFormatException | IOException e) {
@@ -93,17 +93,17 @@ public class LevelFailed extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         if (backgroundImage2 != null) {
-            g2d.drawImage(backgroundImage2, 0, 0, getWidth(), getHeight(), this);
+            g2d.drawImage(backgroundImage2, 0, 0, 988, 565, this);
         } 
 
 
         
-        Font titleFont = customfont != null ? customfont.deriveFont(Font.PLAIN, 45f) : new Font("Broadway", Font.BOLD, 45);
+        Font titleFont =  customfont.deriveFont(Font.PLAIN, 45f);
         g2d.setFont(titleFont);
         g2d.setColor(Color.WHITE);
         g2d.drawString("Oooops! You failed :(", 260, 120);
     }
-/* 
+    /* 
     public static void main(String[] args) {
         int boardWidth = 1000;
         int boardHeight = 800;
