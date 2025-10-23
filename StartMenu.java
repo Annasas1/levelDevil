@@ -30,9 +30,9 @@ public class StartMenu extends JPanel {
     public StartMenu(GameManager manager) {
         this.gameManager = manager; 
         
-        backgroundImage = new ImageIcon("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\BackgroundStartMenu (7).png").getImage();
+        backgroundImage = new ImageIcon("BackgroungSTARTmenu.png").getImage();
         
-        setBackground(Color.GRAY);
+        //setBackground(Color.GRAY);
         setLayout(null);
 
         loadCustomFont();
@@ -41,14 +41,14 @@ public class StartMenu extends JPanel {
         button.setBounds(315, 350, 370, 150);
         button.setBackground(Color.BLACK);
         button.setForeground(Color.WHITE);
-        button.setFont(customfont != null ? customfont.deriveFont(Font.PLAIN, 40f): new Font("Broadway", Font.PLAIN, 40));
+        button.setFont(customfont.deriveFont(Font.PLAIN, 40f));
         button.setFocusPainted(false);
         add(button);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                 playSound("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\SoundClickingMenuButtons.wav");
+                playSound("SoundClickingMenuButtons.wav");
                 
                 gameManager.switchToScreen("MAIN_MENU");
             }
@@ -57,7 +57,7 @@ public class StartMenu extends JPanel {
 
     private void loadCustomFont() {
         try {
-            customfont = Font.createFont(Font.TRUETYPE_FONT, new File("C:\\Users\\20254214\\OneDrive - TU Eindhoven\\Documents\\Programming\\CBL FINAL\\minecraft\\Minecraft.ttf"));
+            customfont = Font.createFont(Font.TRUETYPE_FONT, new File("Minecraft.ttf"));
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customfont);
         } catch (FontFormatException | IOException e) {
@@ -85,10 +85,10 @@ public class StartMenu extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         if (backgroundImage != null) {
-            g2d.drawImage(backgroundImage, 0, 0, 1000, 600, this);
+            g2d.drawImage(backgroundImage, 0, 0, 988, 565, this);
         }
         
-       Font titleFont = customfont != null ? customfont.deriveFont(Font.BOLD, 60f) : new Font("Broadway", Font.BOLD, 60);
+        Font titleFont =  customfont.deriveFont(Font.BOLD, 60f);
         g2d.setFont(titleFont);
         g2d.setColor(Color.WHITE);
         g2d.drawString("Level Devil", 331, 120);
