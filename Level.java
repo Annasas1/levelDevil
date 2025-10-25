@@ -13,7 +13,7 @@ import javax.swing.*;
 
 // Level.java
 /**
- *  ra.
+ *  Our interface for creating the levels (OOP) 
  */
 public interface Level {
     void init(Player player); // Initialize the level with the player object
