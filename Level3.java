@@ -3,7 +3,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import javax.swing.*;
 
-
+/**
+ * Level3 which inherits from level to create new level. 
+ */
 public class Level3 implements Level {
     // ---------------------------------------------------------------------
     // Level Specific Data (Platforms, Spikes, Door)
